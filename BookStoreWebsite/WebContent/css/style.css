@@ -1,0 +1,90 @@
+@charset "ISO-8859-1";
+
+#header-menu {
+	display: table;
+}
+
+.menu_item {
+	display: table-cell;
+	padding-right: 20px;
+}
+
+.menu_item a {
+	color: cornflowerBlue;
+	text-decoration: none;
+}
+
+a:visited {
+	color: indigo;
+}
+
+a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+a:active {
+	color: red;
+}
+
+#header-menu {
+	font-size: larger;
+}
+
+.page-heading {
+	color: darkblue;
+}
+
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 8px;
+}
+
+table.form {
+	border: 0;
+	padding: 4px;
+	width: 80%;
+}
+
+button {
+	padding: 6px;
+}
+
+button[type=submit] {
+	font-weight: bold;
+}
+
+button:hover {
+	opacity: 1;
+}
+
+input {
+	border: 1px silver solid;
+	border-radius: 4px;
+	height: 20px;
+}
+
+.message {
+	color: red;
+	font-style: italic;
+}
+
+.error {
+	color: red;
+	margin: 5px;
+	font-style: italic;
+}
+
+div.center {
+	text-align: center;
+}
+
+div.book {
+	display: inline-block;
+	margin: 20px;
+	text-align: center;
+}
