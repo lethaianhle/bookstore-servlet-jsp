@@ -50,23 +50,8 @@ public class CustomerServices {
 		} else {
 			String message = "Create Customer Successfully";
 			
-			String fullName = request.getParameter("fullName");
-			String password = request.getParameter("password");
-			String phone = request.getParameter("phone");
-			String address = request.getParameter("address");
-			String city = request.getParameter("city");
-			String zipCode = request.getParameter("zipcode");
-			String country = request.getParameter("country");
-			
 			Customer newCustomer = new Customer();
-			newCustomer.setEmail(email);
-			newCustomer.setFullname(fullName);;
-			newCustomer.setPassword(password);
-			newCustomer.setPhone(phone);
-			newCustomer.setAddress(address);
-			newCustomer.setCity(city);
-			newCustomer.setCountry(country);
-			newCustomer.setZipcode(zipCode);
+			updateCustomerFieldsFromForm(newCustomer);
 			
 			customerDAO.create(newCustomer);
 			listCustomer(message);
@@ -96,22 +81,7 @@ public class CustomerServices {
 			String message = "Could not update Customer. Customer " + email + " already exist!";
 			listCustomer(message);
 		} else {
-			String fullName = request.getParameter("fullName");
-			String password = request.getParameter("password");
-			String phone = request.getParameter("phone");
-			String address = request.getParameter("address");
-			String city = request.getParameter("city");
-			String zipCode = request.getParameter("zipcode");
-			String country = request.getParameter("country");
-			
-			customer.setEmail(email);
-			customer.setFullname(fullName);;
-			customer.setPassword(password);
-			customer.setPhone(phone);
-			customer.setAddress(address);
-			customer.setCity(city);
-			customer.setCountry(country);
-			customer.setZipcode(zipCode);
+			updateCustomerFieldsFromForm(customer);
 			
 			customerDAO.update(customer);
 			
@@ -128,6 +98,84 @@ public class CustomerServices {
 		listCustomer(message);
 
 	}
+	
+	public void registerCustomer() throws ServletException, IOException {
+		String email = request.getParameter("email");
+		Customer existCustomer = customerDAO.findByEmail(email);
+		String message = "";
+		
+		if(existCustomer != null) {
+			message = "Could not register! Customer: " + email + " already exist!";
+		} else {
+			message = "Register Customer Successfully! "
+					+ "<br>"
+					+ "<a href='login'>Click here to sign in</a>";
+			
+			Customer newCustomer = new Customer();
+			updateCustomerFieldsFromForm(newCustomer);
+			
+			customerDAO.create(newCustomer);
+		}
+		
+		request.setAttribute("message", message);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("frontend/message.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+	
+	private void updateCustomerFieldsFromForm(Customer customer) {
+		String email = request.getParameter("email");
+		String fullName = request.getParameter("fullName");
+		String password = request.getParameter("password");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		String city = request.getParameter("city");
+		String zipCode = request.getParameter("zipcode");
+		String country = request.getParameter("country");
+		
+		customer.setEmail(email);
+		customer.setFullname(fullName);;
+		customer.setPassword(password);
+		customer.setPhone(phone);
+		customer.setAddress(address);
+		customer.setCity(city);
+		customer.setCountry(country);
+		customer.setZipcode(zipCode);
+	}
+
+	public void showLogin() throws ServletException, IOException {
+		String loginPage = "frontend/login.jsp";
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(loginPage);
+		requestDispatcher.forward(request, response);
+		
+	}
+
+	public void doLogin() throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		Customer customer = customerDAO.checkLogin(email, password);
+		
+		if(customer == null) {
+			String message = "Login failed. Please check your email and password."; 
+			request.setAttribute("message", message);
+			showLogin();
+
+		} else {
+			request.getSession().setAttribute("loggedCustomer", customer);
+			showCustomerProfile();
+		}
+		
+	}
+	
+	public void showCustomerProfile() throws ServletException, IOException {
+		String customerProfilePage = "frontend/customer_profile.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(customerProfilePage);
+		dispatcher.forward(request, response);
+	}
+	
+	
 }
 
 

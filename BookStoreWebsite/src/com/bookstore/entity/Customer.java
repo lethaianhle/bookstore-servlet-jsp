@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
 	@NamedQuery(name="Customer.findAll", query="select c from Customer c order by c.registerDate desc"),
 	@NamedQuery(name="Customer.countAll", query="select COUNT(c.email) from Customer c"),
+	@NamedQuery(name="Customer.checkLogin", query="select c from Customer c where c.email = :email and c.password = :password"),
 	@NamedQuery(name="Customer.findByEmail", query="select c from Customer c where c.email = :email")
 })
 public class Customer implements java.io.Serializable {
