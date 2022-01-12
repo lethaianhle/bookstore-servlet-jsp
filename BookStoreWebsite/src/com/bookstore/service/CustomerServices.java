@@ -134,9 +134,15 @@ public class CustomerServices {
 		String zipCode = request.getParameter("zipcode");
 		String country = request.getParameter("country");
 		
-		customer.setEmail(email);
+		if(email != null && !email.equals("")) {
+			customer.setEmail(email);
+		}
+		
+		if(password != null && !password.equals("")) {
+			customer.setPassword(password);
+		}
+		
 		customer.setFullname(fullName);;
-		customer.setPassword(password);
 		customer.setPhone(phone);
 		customer.setAddress(address);
 		customer.setCity(city);
@@ -174,6 +180,21 @@ public class CustomerServices {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(customerProfilePage);
 		dispatcher.forward(request, response);
 	}
+
+	public void showCustomerProfileEditForm() throws ServletException, IOException {
+		String editPage = "frontend/edit_profile.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
+		dispatcher.forward(request, response);
+		
+	}
+
+	public void updateCustomerProfile() throws ServletException, IOException {
+		Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+		updateCustomerFieldsFromForm(customer);
+		customerDAO.update(customer);
+		showCustomerProfile();
+	}
+
 	
 	
 }
