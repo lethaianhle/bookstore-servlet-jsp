@@ -31,7 +31,7 @@
 			</a>
 		</div>
 		<div class="menu_item">
-			<a href="reviews"> <img alt="" src="../images/review.png">
+			<a href="list_review"> <img alt="" src="../images/review.png">
 				<br> Reviews
 			</a>
 		</div>
