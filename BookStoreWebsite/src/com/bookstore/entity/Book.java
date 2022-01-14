@@ -1,9 +1,12 @@
 package com.bookstore.entity;
 
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -179,16 +182,25 @@ public class Book implements java.io.Serializable {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
 	public Set<Review> getReviews() {
-		return this.reviews;
+		TreeSet<Review> sortedReviews = new TreeSet<>(new Comparator<Review>() {
+
+			@Override
+			public int compare(Review review1, Review review2) {
+				return review2.getReviewTime().compareTo(review1.getReviewTime());
+			}
+		}); 
+		sortedReviews.addAll(reviews);
+		
+		return sortedReviews;
 	}
 
 	public void setReviews(Set<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -206,6 +218,52 @@ public class Book implements java.io.Serializable {
 	@Transient
 	public void setBase64Image(String base64Image) {
 		this.base64Image = base64Image;
+	}
+	
+	@Transient
+	public float getAverageRating() {
+		float averageRating = 0.0f;
+		float sum = 0.0f;
+		
+		if(reviews.isEmpty()) {
+			return 0.0f;
+		}
+		
+		for(Review review: reviews) {
+			sum += review.getRating();
+		}
+		
+		averageRating = (sum/reviews.size());
+		
+		return averageRating;
+	}
+	
+	@Transient
+	public String getRatingString(float averageRating) {
+		String result= "";
+		int numberOfStarsOn = (int) averageRating;
+		
+		for(int i = 1; i <= numberOfStarsOn; i++) {
+			result += "on,";
+		}
+		
+		int next = numberOfStarsOn + 1;
+		if(averageRating > numberOfStarsOn) {
+			result += "half,";
+			next++;
+		}
+		
+		for(int j = next; j <= 5; j++) {
+			result += "off,";
+		}
+		
+		return result.substring(0, result.length() - 1);
+	}
+	
+	@Transient
+	public String getRatingStars() {
+		float averageRating = getAverageRating();
+		return getRatingString(averageRating);
 	}
 
 	@Override

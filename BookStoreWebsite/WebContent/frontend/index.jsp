@@ -27,7 +27,7 @@
 						<a href="view_book?id=${book.bookId}"><b>${book.title}</b>
 					</div>
 					</a>
-					<div>Rating *****</div>
+					<jsp:directive.include file="book_rating.jsp" />
 					<div>
 						<i>by ${book.author}</i>
 					</div>
