@@ -1,11 +1,13 @@
 package com.bookstore.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,13 +17,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "review", catalog = "bookstoredb")
 @NamedQueries({
 	@NamedQuery(name="Review.listAll", query="select r from Review r order by r.reviewTime desc"),
-	@NamedQuery(name="Review.countAll", query="select count(r) from Review r")
+	@NamedQuery(name="Review.countAll", query="select count(r) from Review r"),
+	@NamedQuery(name = "Review.findByCustomerAndBook",
+				query = "SELECT r FROM Review r WHERE r.customer.customerId = :customerId"
+						+ " AND r.book.bookId = :bookId")
 })
 public class Review implements java.io.Serializable {
 

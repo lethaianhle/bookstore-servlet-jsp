@@ -1,14 +1,19 @@
 package com.bookstore.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.bookstore.dao.BookDAO;
 import com.bookstore.dao.ReviewDAO;
+import com.bookstore.entity.Book;
+import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
 
 public class ReviewServices {
@@ -72,6 +77,58 @@ public class ReviewServices {
 		String message = "Deleted Review Successfully!";
 		listAllReview(message);
 		
+	}
+
+	public void showReviewForm() throws ServletException, IOException {
+		Integer bookId = Integer.parseInt(request.getParameter("book_id"));
+		BookDAO bookDAO = new BookDAO();
+		Book book = bookDAO.get(bookId);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("book", book);
+	
+		Customer customer = (Customer) session.getAttribute("loggedCustomer");
+		Review customerReview = reviewDAO.findByCustomerAndBook(customer.getCustomerId(), bookId);
+		
+		String page = "";
+		
+		if(customerReview != null) {
+			request.setAttribute("customerReview", customerReview);
+			page = "frontend/review_info.jsp";
+		} else {
+			page = "frontend/review_form.jsp";
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
+	}
+
+	public void submitReview() throws ServletException, IOException {
+		Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+		Integer rating = Integer.parseInt(request.getParameter("rating"));
+		
+		String headline = request.getParameter("headline");
+		String comment = request.getParameter("comment");
+		
+		Review review = new Review();
+		review.setRating(rating);
+		review.setHeadline(headline);
+		review.setComment(comment);
+		
+		Book book = new Book();
+		book.setBookId(bookId);
+		review.setBook(book);
+		
+		Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+		review.setCustomer(customer);
+		
+		review.setReviewTime(new Date());
+		
+		reviewDAO.create(review);
+		
+		String page = "frontend/review_done.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
 	}
 	
 	

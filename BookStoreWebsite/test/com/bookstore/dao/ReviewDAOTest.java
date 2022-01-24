@@ -1,12 +1,13 @@
 package com.bookstore.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -85,6 +86,27 @@ public class ReviewDAOTest {
 		count = reviewDao.count();
 		System.out.println(count);
 		assertEquals(2, count);
+	}
+	
+	@Test
+	public void findByCustomerAndBookFound() {
+		Integer customerId = 9;
+		Integer bookId = 233;
+		
+		Review review = reviewDao.findByCustomerAndBook(customerId, bookId);
+		System.out.println(review.getHeadline());
+		assertNull(review);
+	}
+	
+	@Test
+	public void findByCustomerAndBookNotFound() {
+		Integer customerId = 100;
+		Integer bookId = 99;
+		
+		Review review = reviewDao.findByCustomerAndBook(customerId, bookId);
+		
+		assertNull(review);
+		
 	}
 
 }
