@@ -40,8 +40,8 @@ public class ShoppingCart {
 		return total;
 	}
 	
-	public double getTotalAmount() {
-		double total = 0;
+	public float getTotalAmount() {
+		float total = 0;
 		Iterator<Book> iterator = cart.keySet().iterator();
 		
 		while(iterator.hasNext()) {

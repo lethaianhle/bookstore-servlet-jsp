@@ -91,7 +91,7 @@
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
-								<td><a>Checkout</a></td>
+								<td><a href="checkout">Checkout</a></td>
 							</tr>
 						</table>
 					</div>
