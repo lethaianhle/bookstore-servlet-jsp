@@ -31,8 +31,12 @@ public class OrderServices {
 		this.response = response;
 	}
 
-	public void listAllOrder() throws ServletException, IOException {
+	public void listAllOrder(String message) throws ServletException, IOException {
 		List<BookOrder> listOrder = orderDAO.listAll();
+		
+		if(message != null) {
+			request.setAttribute("message", message);
+		}
 
 		request.setAttribute("listOrder", listOrder);
 
@@ -40,6 +44,10 @@ public class OrderServices {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(orderListPage);
 		dispatcher.forward(request, response);
 
+	}
+	
+	public void listAllOrder() throws ServletException, IOException {
+		listAllOrder(null);
 	}
 
 	public void viewOrderDetailForAdmin() throws ServletException, IOException {
@@ -124,4 +132,128 @@ public class OrderServices {
 		dispatcher.forward(request, response);
 	}
 
+	public void listOrderByCustomer() throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Customer customer = (Customer) session.getAttribute("loggedCustomer");
+		List<BookOrder> listOrders = orderDAO.listByCustomer(customer.getCustomerId());
+		
+		request.setAttribute("listOrders", listOrders);
+		String historyPage = "frontend/order_list.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(historyPage);
+		dispatcher.forward(request, response);
+	}
+
+	public void showOrderDetailForCustomer() throws ServletException, IOException {
+		Integer orderId = Integer.parseInt(request.getParameter("id"));
+		Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+		Integer customerId = customer.getCustomerId();
+		
+		BookOrder order = orderDAO.get(orderId, customerId);
+
+		request.setAttribute("order", order);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("frontend/order_detail.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+
+	public void showEditOrderForm() throws ServletException, IOException {
+		Integer orderId = Integer.parseInt(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		Object isPendingBook = session.getAttribute("NewBookPendingToAddToOrder");
+		
+		if (isPendingBook == null) {
+			BookOrder order = orderDAO.get(orderId);
+			session.setAttribute("order", order);
+		} else {
+			session.removeAttribute("NewBookPendingToAddToOrder");
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("order_form.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+
+	public void updateOrder() throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		BookOrder order = (BookOrder) session.getAttribute("order");
+		
+		String recipientName = request.getParameter("recipientName");
+		String recipientPhone = request.getParameter("recipientPhone");
+		String shippingAddress = request.getParameter("shippingAddress");
+		String orderStatus = request.getParameter("orderStatus");
+		String paymentMethod = request.getParameter("paymentMethod");
+		
+		order.setRecipientName(recipientName);
+		order.setRecipientPhone(recipientPhone);
+		order.setShippingAddress(shippingAddress);
+		order.setStatus(orderStatus);
+		order.setPaymentMethod(paymentMethod);
+		
+		String[] arrayBookId = request.getParameterValues("bookId");
+		String[] arrayPrice = request.getParameterValues("price");
+		String[] arrayQuantity = new String[arrayBookId.length];
+		
+		for(int i = 1; i <= arrayQuantity.length; i++) {
+			arrayQuantity[i - 1] = request.getParameter("quantity" + i);
+		}
+		
+		Set<OrderDetail> orderDetails = order.getOrderDetails();
+		orderDetails.clear();
+		
+		float totalAmount = 0.0f;
+		for(int i = 0; i < arrayBookId.length; i++) {
+			int bookId = Integer.parseInt(arrayBookId[i]);
+			int quantity = Integer.parseInt(arrayQuantity[i]);
+			float price = Float.parseFloat(arrayPrice[i]);
+			float subtotal = price * quantity;
+			
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setQuantity(quantity);
+			orderDetail.setSubtotal(subtotal);
+			orderDetail.setBook(new Book(bookId));
+			orderDetail.setBookOrder(order);
+			
+			orderDetails.add(orderDetail);
+			totalAmount += subtotal;
+			
+		}
+		
+		order.setTotal(totalAmount);
+		orderDAO.update(order);
+		
+		String message = "Updated Order Successfully!";
+		listAllOrder(message);
+		
+	}
+
+	public void deleteOrder() throws ServletException, IOException {
+		Integer orderId = Integer.parseInt(request.getParameter("id"));
+		orderDAO.delete(orderId);
+		
+		String message = "Delete Order Successfully!";
+		listAllOrder(message);
+		
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

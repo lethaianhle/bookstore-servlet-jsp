@@ -19,7 +19,7 @@
 	<div align="center">
 		<h1 class="page-heading">
 			Order Management
-			</h2>
+		</h1>
 	</div>
 
 	<c:if test="${message != null}">

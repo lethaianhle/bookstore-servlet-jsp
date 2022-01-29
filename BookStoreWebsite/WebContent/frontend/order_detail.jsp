@@ -6,9 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Order Detail - Evergreen Bookstore Administrator</title>
+<title>My Order Detail - Evergreen Bookstore Administrator</title>
 <link rel="stylesheet" href="../css/style.css" />
-<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<jsp:directive.include file="header.jsp" />
@@ -18,25 +17,22 @@
 
 	<div align="center">
 		<h1 class="page-heading">
-			Detail of OrderId: ${order.orderId}
+			Your OrderId: ${order.orderId}
 		</h1>
 	</div>
-
-	<c:if test="${message != null}">
-		<div align="center">
-			<h4 class="message">${message}</h4>
-		</div>
-	</c:if>
 	
 	<div align="center">
-		<h2>Order Overview:</h2>
 		<table border="1px" cellpadding="5px">
 			<tr>
-				<td>Ordered By: </td>
-				<td>${order.customer.fullname }</td>
+				<td>Order Status: </td>
+				<td>${order.status }</td>
 			</tr>
 			<tr>
-				<td>Book Copies: </td>
+				<td>Order Date: </td>
+				<td>${order.orderDate }</td>
+			</tr>
+			<tr>
+				<td>Quantity: </td>
 				<td>${order.totalCopies }</td>
 			</tr>
 			<tr>
@@ -48,20 +44,16 @@
 				<td>${order.recipientName }</td>
 			</tr>
 			<tr>
+				<td>Recipient Phone: </td>
+				<td>${order.recipientPhone }</td>
+			</tr>
+			<tr>
 				<td>Payment Method: </td>
 				<td>${order.paymentMethod}</td>
 			</tr>
 			<tr>
 				<td>Shipping Address: </td>
 				<td>${order.shippingAddress }</td>
-			</tr>
-			<tr>
-				<td>Order Status: </td>
-				<td>${order.status }</td>
-			</tr>
-			<tr>
-				<td>Order Date: </td>
-				<td>${order.orderDate }</td>
 			</tr>
 		</table>
 	</div>
@@ -72,7 +64,7 @@
 		<h2>Ordered Books:</h2>
 		<table border="1px" cellpadding="5px">
 				<tr>
-					<th>Index </th>
+					<th>No </th>
 					<th>Thumbnail</th>
 					<th>Book Title</th>
 					<th>Author</th>
@@ -101,28 +93,7 @@
 	
 	<br>
 	<br>
-
-	<div align="center">
-		<a href="edit_order?id=${order.orderId}">Edit this Order</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="">Delete this Order</a>
-	</div>
-	
-	<br>
-	<br>
 	<jsp:directive.include file="footer.jsp" />
 </body>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".delete-link").each(function() {
-			$(this).on("click", function() {
-				orderId = $(this).attr("id");
-				if(confirm("Are u sure want to delete order with id " + orderId + " ?")) {
-					window.location = "delete_order?id=" + orderId;
-				}
-			});
-		});
-	});
-</script>
 </html>

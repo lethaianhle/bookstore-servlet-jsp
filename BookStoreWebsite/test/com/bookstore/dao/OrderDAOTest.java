@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.List;
@@ -110,5 +109,33 @@ public class OrderDAOTest {
 		assertEquals(order.getShippingAddress(), updatedOrder.getShippingAddress());
 	}
 	
+	@Test
+	public void testListByCustomerNoOrders() {
+		Integer customerId = 13531531;
+		List<BookOrder> list = orderDAO.listByCustomer(customerId);
+		
+		assertTrue(list.isEmpty());
+	}
+	
+	@Test
+	public void testListByCustomer() {
+		Integer customerId = 2;
+		List<BookOrder> list = orderDAO.listByCustomer(customerId);
+		
+		for (BookOrder bookOrder : list) {
+			System.out.println(bookOrder.getCustomer().getFullname() + " - " + bookOrder.getTotalCopies());
+		}
+		
+		assertTrue(list.size() > 0);
+	}
+	
+	@Test
+	public void testFindByIdAndCustomer() {
+		Integer customerId = 2;
+		Integer orderId = 2;
+		BookOrder order = orderDAO.get(orderId, customerId);
+
+		assertNotNull(order);
+	}
 
 }
