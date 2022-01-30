@@ -46,7 +46,6 @@ public class OrderDAO extends JpaDAO<BookOrder> implements GenericDAO<BookOrder>
 	}
 	
 	public BookOrder get(Integer orderId, Integer customerId) {
-		
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("orderId", orderId);
 		parameters.put("customerId", customerId);
@@ -54,4 +53,9 @@ public class OrderDAO extends JpaDAO<BookOrder> implements GenericDAO<BookOrder>
 		return result.isEmpty() ? null : result.get(0);
 	}
 
+	public List<BookOrder> listMostRecentSales() {
+		return super.findWithNamedQuery("BookOrder.findAll", 0, 3);
+	}
+	
+	
 }

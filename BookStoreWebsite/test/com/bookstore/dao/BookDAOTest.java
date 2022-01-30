@@ -68,7 +68,7 @@ public class BookDAOTest{
 		newBook.setCategory(category);
 		newBook.setTitle("Effective Java (3rd Edition)");
 		newBook.setAuthor("Joshua Bloch");
-		newBook.setDescription("Each chapter in the book consists of several “items” presented in the form of a short, standalone essay that provides specific advice, insight into Java platform subtleties, and outstanding code examples. The comprehensive descriptions and explanations for each item illuminate what to do, what not to do, and why.");
+		newBook.setDescription("Each chapter in the book consists of several ï¿½itemsï¿½ presented in the form of a short, standalone essay that provides specific advice, insight into Java platform subtleties, and outstanding code examples. The comprehensive descriptions and explanations for each item illuminate what to do, what not to do, and why.");
 		newBook.setPrice(40f);
 		newBook.setIsbn("0321356683");
 		
@@ -211,6 +211,28 @@ public class BookDAOTest{
 		System.out.println("Count----------------" + count);
 		
 		assertTrue(count > 0);
+	}
+	
+	@Test
+	public void testListBestSellingBooks() {
+		List<Book> topBestSellingBooks = bookDAO.listBestSellingBooks();
+		
+		for (Book book : topBestSellingBooks) {
+			System.out.println(book.getTitle());
+		}
+		
+		assertEquals(4, topBestSellingBooks.size());
+	}
+	
+	@Test
+	public void testListMostFavoredBooks() {
+		List<Book> listMostFavoredBooks = bookDAO.listMostFavoredBooks();
+		
+		for (Book book : listMostFavoredBooks) {
+			System.out.println(book.getTitle());
+		}
+		
+		assertEquals(4, listMostFavoredBooks.size());
 	}
 
 }

@@ -13,6 +13,7 @@
 	<br>
 
 	<div align="center">
+	
 		<h2>New Books:</h2>
 		<div align="center" style="width: 80%; margin: 0 auto;">
 			<c:forEach items="${listNewBooks}" var="book">
@@ -24,9 +25,8 @@
 						</a>
 					</div>
 					<div>
-						<a href="view_book?id=${book.bookId}"><b>${book.title}</b>
+						<a href="view_book?id=${book.bookId}"><b>${book.title}</b></a>
 					</div>
-					</a>
 					<jsp:directive.include file="book_rating.jsp" />
 					<div>
 						<i>by ${book.author}</i>
@@ -38,9 +38,53 @@
 			</c:forEach>
 		</div>
 
-
 		<h2 style="clear: both; margin-top: 10px;">Best-selling Books:</h2>
+		<div align="center" style="width: 80%; margin: 0 auto;">
+			<c:forEach items="${listBestSellingBooks}" var="book">
+				<div style="display: inline-block; margin: 10px;">
+					<div>
+						<a href="view_book?id=${book.bookId}"> <img
+							src="data:image/jpg;base64,${book.base64Image}" width="128"
+							height="164" />
+						</a>
+					</div>
+					<div>
+						<a href="view_book?id=${book.bookId}"><b>${book.title}</b></a>
+					</div>
+					<jsp:directive.include file="book_rating.jsp" />
+					<div>
+						<i>by ${book.author}</i>
+					</div>
+					<div>
+						<b>$${book.price}</b>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		
 		<h2 style="clear: both;">Most-favoured Books:</h2>
+		<div align="center" style="width: 80%; margin: 0 auto;">
+			<c:forEach items="${listMostFavoredBooks}" var="book">
+				<div style="display: inline-block; margin: 10px;">
+					<div>
+						<a href="view_book?id=${book.bookId}"> <img
+							src="data:image/jpg;base64,${book.base64Image}" width="128"
+							height="164" />
+						</a>
+					</div>
+					<div>
+						<a href="view_book?id=${book.bookId}"><b>${book.title}</b></a>
+					</div>
+					<jsp:directive.include file="book_rating.jsp" />
+					<div>
+						<i>by ${book.author}</i>
+					</div>
+					<div>
+						<b>$${book.price}</b>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 
 	</div>
 
