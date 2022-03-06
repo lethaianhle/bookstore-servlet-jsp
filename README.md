@@ -7,3 +7,9 @@ Basic E-commerce Application with 2 modules:
 
 * Customer: login, logout, register, manage profile, view order history, place order, manage shopping cart, write review, view book details, search books, list books 
 
+# Preview
+
+* Home Page
+
+<img src="https://postimg.cc/1425gZ94">
+
