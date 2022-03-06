@@ -11,5 +11,5 @@ Basic E-commerce Application with 2 modules:
 
 * Home Page
 
-<img src="https://postimg.cc/1425gZ94">
+<img src="https://i.postimg.cc/155gj920/trangchu.png" alt="trangchu"/>
 
