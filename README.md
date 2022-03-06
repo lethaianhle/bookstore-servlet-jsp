@@ -13,3 +13,18 @@ Basic E-commerce Application with 2 modules:
 
 <img src="https://i.postimg.cc/155gj920/trangchu.png" alt="trangchu"/>
 
+* Cart
+
+<a href="https://postimg.cc/CB6MH3kP" target="_blank"><img src="https://i.postimg.cc/SRmXqqsh/cart.png" alt="cart"/></a>
+
+* Admin page
+
+<a href="https://postimg.cc/dk0tCskZ" target="_blank"><img src="https://i.postimg.cc/cHRKV6dh/administrator.png" alt="administrator"/></a>
+
+* Manage Page
+
+<a href="https://postimg.cc/3048LtZK" target="_blank"><img src="https://i.postimg.cc/gj4x25X6/manageorder.png" alt="manageorder"/></a>
+
+* Edit Page
+
+<a href="https://postimg.cc/jCLSdjYG" target="_blank"><img src="https://i.postimg.cc/CM4B7ZPL/editorder.png" alt="editorder"/></a>
