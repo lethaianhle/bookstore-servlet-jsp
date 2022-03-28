@@ -28,3 +28,5 @@ Basic E-commerce Application with 2 modules:
 * Edit Page
 
 <a href="https://postimg.cc/jCLSdjYG" target="_blank"><img src="https://i.postimg.cc/CM4B7ZPL/editorder.png" alt="editorder"/></a>
+
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
