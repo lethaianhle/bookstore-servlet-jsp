@@ -11,4 +11,5 @@ Basic E-commerce Application with 2 modules:
  
 * Video Demo
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+https://user-images.githubusercontent.com/79903271/160505900-40cc0219-3461-45b2-a310-c9df61898406.mp4
+
